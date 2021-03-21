@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.gyh.buyit.mapper.OrderMapper">
+
+    <select id="findOrderByUserId" parameterType="int" resultType="Order">
+        select * from orderlist where userId = #{userId} order by orderId desc
+    </select>
+
+    <insert id="buy" parameterType="Order" useGeneratedKeys="true" keyProperty="orderId">
+        insert into orderlist(goodId, userId, skuId, goodName, color, version, price, quantity, orderTime,status,addressName,receiver,phone)
+        values (#{goodId}, #{userId},#{skuId}, #{goodName}, #{color}, #{version}, #{price}, #{quantity}, #{orderTime},'待支付',#{addressName},#{receiver},#{phone})
+    </insert>
+
+    <select id="findAllOrder" resultType="Order">
+        select * from orderlist
+    </select>
+
+    <select id="findAllOrderByPage" parameterType="ListInfo" resultType="Order">
+        select * from orderlist order by ${prop} ${order} limit #{start},#{pageSize}
+    </select>
+
+    <delete id="deleteOrderByOrderId" parameterType="int">
+        delete from orderlist where orderId=#{orderId}
+    </delete>
+
+    <select id="orderCount" resultType="int">
+        select count(*) from orderlist
+    </select>
+
+    <update id="setOrderStatus">
+        update orderlist set status=#{status} where orderId=#{orderId}
+    </update>
+
+    <select id="countOrderByWeek" resultType="int">
+        select count(orderId)count from orderlist group by DATE_FORMAT(orderTime,'%Y年-第%u周')
+    </select>
+
+    <select id="findAllWeek" resultType="String">
+        select distinct DATE_FORMAT(orderTime,'%Y年-第%u周')week from orderlist
+    </select>
+
+</mapper>

@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.gyh.buyit.mapper.CartMapper">
+
+    <select id="findCartByUserId" parameterType="int" resultType="Cart">
+        select *
+        from cart
+        where userId = #{userId}
+    </select>
+
+    <insert id="addCart" parameterType="Cart">
+        insert into cart(goodId, skuId, userId, quantity)
+        values (#{goodId}, #{skuId}, #{userId}, #{quantity})
+    </insert>
+
+    <select id="findAllCart" resultType="Cart">
+        select *
+        from cart
+    </select>
+
+    <delete id="deleteCartByCartId" parameterType="int">
+        delete
+        from cart
+        where cartId = #{cartId}
+    </delete>
+
+    <delete id="deleteCartByUserId" parameterType="int">
+        delete
+        from cart
+        where userId = #{userId}
+    </delete>
+
+
+    <update id="quantityChange" parameterType="int">
+        update cart set quantity=#{quantity} where cartId=#{cartId}
+    </update>
+
+    <update id="addQuantity" parameterType="int">
+        update cart set quantity=quantity+${quantity} where cartId=#{cartId}
+    </update>
+
+    <select id="isExistSkuInCart" parameterType="Cart" resultType="Integer">
+        select cartId from cart where skuId=#{skuId} and userId=#{userId}
+    </select>
+
+    <select id="countCartByUserId" parameterType="int" resultType="int">
+        select count(*) from cart where userId=#{userId}
+    </select>
+</mapper>

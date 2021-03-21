@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.gyh.buyit.mapper.AddressMapper">
+
+    <select id="findAllAddress" resultType="Address">
+        select * from address
+    </select>
+
+    <select id="findAllAddressByPage" parameterType="ListInfo" resultType="Address">
+        select * from address order by ${prop} ${order} limit #{start},#{pageSize}
+    </select>
+
+    <select id="findAddressByUserId" parameterType="int" resultType="Address">
+        select * from address where userId=#{userId}
+    </select>
+
+    <insert id="addAddress" parameterType="Address" useGeneratedKeys="true" keyProperty="addressId">
+        insert into address(userId,areaName,detailAddress,receiver,phone) values(#{userId},#{areaName},#{detailAddress},#{receiver},#{phone})
+    </insert>
+
+    <delete id="deleteAddressByAddressId" parameterType="int">
+        delete from address where addressId=#{addressId}
+    </delete>
+
+    <update id="updateAddress" parameterType="address">
+        update address set userId=#{userId},areaName=#{areaName},detailAddress=#{detailAddress},receiver=#{receiver},phone=#{phone} where addressId=#{addressId}
+    </update>
+
+    <select id="addressCount" resultType="int">
+        select count(*) from address
+    </select>
+</mapper>

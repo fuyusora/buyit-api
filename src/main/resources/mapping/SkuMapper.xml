@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.gyh.buyit.mapper.SkuMapper">
+
+    <select id="findSkuBySkuId" parameterType="int" resultType="Sku">
+        select * from sku where skuId = #{skuId}
+    </select>
+
+    <select id="findFirstSkuByGoodId" parameterType="int" resultType="Sku">
+        select * from sku where goodId = #{goodId} order by skuId limit 1
+    </select>
+
+    <select id="findSkuByGoodId" parameterType="int" resultType="Sku">
+        select * from sku where goodId = #{goodId}
+    </select>
+
+    <select id="findAllSku" resultType="Sku">
+        select * from sku
+    </select>
+
+    <select id="findColorByGoodId" parameterType="int" resultType="String">
+        select distinct color from sku where goodId = #{goodId}
+    </select>
+
+    <select id="findSkuByColorAndGoodId" resultType="Sku">
+        select * from sku where color=#{color} and goodId=#{goodId}
+    </select>
+
+    <delete id="deleteSkuBySkuId" parameterType="int">
+        delete from sku where skuId=#{skuId}
+    </delete>
+
+    <update id="offShelfSkuBySkuId" parameterType="int">
+        update sku set stock=0 where skuId=#{skuId}
+    </update>
+
+    <update id="updateSku" parameterType="Sku">
+        update sku set goodId=#{goodId},color=#{color},version=#{version},price=#{price},stock=#{stock} where skuId=#{skuId}
+    </update>
+
+    <insert id="insertSku" parameterType="Sku" useGeneratedKeys="true" keyProperty="skuId">
+        insert into sku(goodId,color,version,price,stock) values(#{goodId},#{color},#{version},#{price},#{stock})
+    </insert>
+
+    <update id="setSkuImg" parameterType="Sku">
+        update sku set skuImg = #{skuImg} where skuId = #{skuId}
+    </update>
+
+    <select id="skuCount" resultType="int">
+        select count(*) from sku
+    </select>
+
+    <update id="destockBySkuId" parameterType="int">
+        update sku set stock=stock-${quantity} where skuId=#{skuId}
+    </update>
+
+    <update id="restockBySkuId" parameterType="int">
+        update sku set stock=stock+${quantity} where skuId=#{skuId}
+    </update>
+
+</mapper>

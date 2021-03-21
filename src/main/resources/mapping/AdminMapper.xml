@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.gyh.buyit.mapper.AdminMapper">
+
+    <select id="isExist" parameterType="String" resultType="String">
+        select adminId from admin where adminName = #{adminName}
+    </select>
+
+    <select id="getPasswordByAdminName" parameterType="String" resultType="String">
+        select password from admin where adminName = #{adminName}
+    </select>
+
+    <select id="findAdminByAdminId" parameterType="int" resultType="Admin">
+        select * from admin where adminId = #{adminId}
+    </select>
+
+    <select id="adminLogin" parameterType="Admin" resultType="Admin">
+        select * from admin where adminName = #{adminName}
+    </select>
+
+    <insert id="createAdmin" parameterType="Admin">
+        insert into admin(adminName,password,authority,status) values(#{adminName},#{password},#{authority},'已启用')
+    </insert>
+
+    <select id="findAllAdmin" resultType="Admin">
+        select adminId,adminName,authority,status from admin
+    </select>
+
+    <select id="findAllAdminByPage" parameterType="ListInfo" resultType="Admin">
+        select adminId,adminName,authority,status from admin order by ${prop} ${order} limit #{start},#{pageSize}
+    </select>
+
+    <update id="setAdminInfo" parameterType="Admin">
+        update admin set adminName = #{adminName},authority = #{authority} where adminId = #{adminId}
+    </update>
+
+    <update id="setAdminPassword" parameterType="Admin">
+        update admin set password=#{password} where adminId = #{adminId}
+    </update>
+
+    <select id="adminCount" resultType="int">
+        select count(*) from admin
+    </select>
+
+    <update id="disableAdminByAdminId" parameterType="int">
+        update admin set status='已停用' where adminId=#{adminId}
+    </update>
+
+    <update id="enableAdminByAdminId" parameterType="int">
+        update admin set status='已启用' where adminId=#{adminId}
+    </update>
+
+    <delete id="deleteAdminByAdminId" parameterType="int">
+        delete from admin where adminId=#{adminId}
+    </delete>
+
+</mapper>

@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.gyh.buyit.mapper.CategoryMapper">
+
+    <select id="findCategoryByCategoryId" parameterType="int" resultType="Category">
+        select * from category where categoryId = #{categoryId}
+    </select>
+
+    <insert id="createCategory" parameterType="Category">
+        insert into category(categoryName,categoryKey) values(#{categoryName},#{categoryKey})
+    </insert>
+
+    <select id="findAllCategory" resultType="Category">
+        select * from category
+    </select>
+
+    <select id="findAllCategoryByPage" parameterType="ListInfo" resultType="Category">
+        select * from category order by ${prop} ${order} limit #{start},#{pageSize}
+    </select>
+
+    <update id="setCategoryInfo" parameterType="Category">
+        update category set categoryName = #{categoryName},categoryKey = #{categoryKey} where categoryId = #{categoryId}
+    </update>
+
+    <select id="categoryCount" resultType="int">
+        select count(*) from category
+    </select>
+
+    <delete id="deleteCategoryByCategoryId" parameterType="int">
+        delete from category where categoryId=#{categoryId}
+    </delete>
+
+</mapper>

@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.gyh.buyit.mapper.BannerMapper">
+
+    <select id="findAllBanner" resultType="Banner">
+        select * from banner order by priority
+    </select>
+
+    <select id="findAllBannerByPage" parameterType="ListInfo" resultType="Banner">
+        select * from banner order by ${prop} ${order} limit #{start},#{pageSize}
+    </select>
+
+    <insert id="addBanner" parameterType="Banner" useGeneratedKeys="true" keyProperty="bannerId">
+        insert into banner(bannerName,link,priority) values(#{bannerName},#{link},#{priority})
+    </insert>
+
+    <delete id="deleteBannerByBannerId" parameterType="int">
+        delete from banner where bannerId=#{bannerId}
+    </delete>
+
+    <update id="updateBanner" parameterType="banner">
+        update banner set bannerName=#{bannerName},link=#{link},priority=#{priority} where bannerId=#{bannerId}
+    </update>
+
+    <select id="bannerCount" resultType="int">
+        select count(*) from banner
+    </select>
+
+    <update id="setBannerPath" parameterType="Banner">
+        update banner set bannerPath=#{bannerPath} where bannerId=#{bannerId}
+    </update>
+</mapper>

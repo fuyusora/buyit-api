@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.gyh.buyit.mapper.GoodMapper">
+
+<!--商品加载-->
+
+    <select id="findGoodByCategoryKey" parameterType="String" resultType="Good">
+        select * from good where categoryKey = #{categoryKey}
+    </select>
+
+    <select id="findGoodByGoodId" parameterType="int" resultType="Good">
+        select * from good where goodId = #{goodId}
+    </select>
+
+    <select id="findGoodByKeyword" parameterType="String" resultType="Good">
+        select * from good where goodName like concat('%',#{keyword},'%')
+    </select>
+
+    <select id="findAllGood" resultType="Good">
+        select * from good
+    </select>
+
+    <select id="findAllGoodByPage" parameterType="ListInfo" resultType="Good">
+        select * from good order by ${prop} ${order} limit #{start},#{pageSize}
+    </select>
+
+    <select id="goodCount" resultType="int">
+        select count(*) from good
+    </select>
+
+    <update id="updateGood" parameterType="Good">
+        update good set goodName=#{goodName},slogan=#{slogan},categoryKey=#{categoryKey},defaultSkuId=#{defaultSkuId} where goodId=#{goodId}
+    </update>
+
+    <insert id="insertGood" parameterType="Good" useGeneratedKeys="true" keyProperty="goodId">
+        insert into good(goodName,slogan,categoryKey) values(#{goodName},#{slogan},#{categoryKey})
+    </insert>
+
+    <update id="setDetailImg" parameterType="Good">
+        update good set detailImg = #{detailImg} where goodId = #{goodId}
+    </update>
+
+
+    <delete id="deleteGoodByGoodId" parameterType="int">
+        delete from good where goodId=#{goodId}
+    </delete>
+
+
+    <update id="setDefaultSku" parameterType="Sku">
+        update good set defaultSkuId=#{skuId} where goodId=#{goodId}
+    </update>
+
+</mapper>

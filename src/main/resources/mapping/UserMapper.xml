@@ -1,0 +1,76 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.gyh.buyit.mapper.UserMapper">
+
+    <!--用户账号相关-->
+
+    <select id="isRegistered" parameterType="String" resultType="String">
+        select userId from user where phone = #{phone}
+    </select>
+
+    <select id="getPasswordByPhone" parameterType="String" resultType="String">
+        select password from user where phone = #{phone}
+    </select>
+
+    <select id="findUserByPhone" parameterType="String" resultType="User">
+        select userId,phone,userName,avatar,sex,birthday,status from user where phone = #{phone}
+    </select>
+
+    <select id="findUserByUserId" parameterType="int" resultType="User">
+        select * from user where userId = #{userId}
+    </select>
+
+    <select id="login" parameterType="User" resultType="User">
+        select * from user where phone = #{phone}
+    </select>
+
+    <insert id="register" parameterType="User" useGeneratedKeys="true" keyProperty="userId">
+        insert into user(phone,userName,password,status) values(#{phone},#{userName},#{password},'已启用')
+    </insert>
+
+    <select id="findAllUser" resultType="User">
+        select userId,phone,userName,avatar,sex,birthday,status from user
+    </select>
+
+    <select id="findAllUserByPage" parameterType="ListInfo" resultType="User">
+        select userId,phone,userName,avatar,sex,birthday,status from user order by ${prop} ${order} limit #{start},#{pageSize}
+    </select>
+
+    <update id="setUserInfo" parameterType="User">
+        update user set phone=#{phone}, userName = #{userName},sex = #{sex},birthday = #{birthday} where userId = #{userId}
+    </update>
+
+    <update id="setUserPassword" parameterType="User">
+        update user set password=#{password} where userId = #{userId}
+    </update>
+
+    <update id="resetUserPassword" parameterType="User">
+        update user set password=#{password} where phone = #{phone}
+    </update>
+
+    <update id="setUserAvatar" parameterType="User">
+        update user set avatar = #{avatar} where userId = #{userId}
+    </update>
+
+    <update id="changePhone" parameterType="User">
+        update user set phone = #{phone} where userId = #{userId}
+    </update>
+
+    <select id="userCount" resultType="int">
+        select count(*) from user
+    </select>
+
+    <update id="banUserByUserId" parameterType="int">
+        update user set status='已停用' where userId=#{userId}
+    </update>
+
+    <update id="unblockUserByUserId" parameterType="int">
+        update user set status='已启用' where userId=#{userId}
+    </update>
+
+    <delete id="deleteUserByUserId" parameterType="int">
+        delete from user where userId=#{userId}
+    </delete>
+
+
+</mapper>

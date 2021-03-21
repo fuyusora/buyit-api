@@ -1,0 +1,27 @@
+server:
+  port: 8181
+
+spring:
+  datasource:
+    url: jdbc:mysql://localhost:3306/buyit
+    username: root
+    password: 1234
+    driver-class-name: com.mysql.cj.jdbc.Driver
+  servlet:
+    multipart:
+      max-file-size: 10MB
+      max-request-size: 100MB
+
+mybatis:
+  mapper-locations: classpath:mapping/*.xml
+#  提取出包名
+  type-aliases-package: com.gyh.buyit.entity
+
+#图片资源路径映射
+static:
+  imagePath:
+    file:D://buyit/image/
+
+logging:
+  level:
+    com.gyh.buyit.mapper: debug
